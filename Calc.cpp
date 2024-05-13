@@ -1,37 +1,57 @@
 ﻿#include <iostream>
 #include <regex>
+#include <string>
 
 int main(){
+    double answer;
+    std::string continueToken = "";
+
     while (true){
         double a, b;
-        std::string operation;
+        std::string operation = "";
         std::regex operationRe("^\\s*[+\\-*/%]$");
+        std::regex valueRe("^[0-9]+$");
 
-        std::cout << "enter value a\n";
-        while (!(std::cin >> a)) {
-            std::cout << "invalid value, enter number\n";
-            std::cin.clear();
-            std::cin.ignore(INT_MAX, '\n');
+        if (std::regex_match(continueToken, valueRe)){
+            a = std::stod(continueToken);
+        }
+        else if (std::regex_match(continueToken, operationRe)) {
+            a = answer;
+            operation = continueToken;
+        } else if (continueToken != "") {
+
         }
 
-        std::cout << "enter operation\n";
-        while (true) {
-            if (!(std::cin >> operation)) {
-                std::cout << "invalid value, enter operation\n";
+        if (continueToken == "") {
+            std::cout << "enter value a\n";
+            while (!(std::cin >> a)) {
+                std::cout << "invalid value, enter number\n";
                 std::cin.clear();
                 std::cin.ignore(INT_MAX, '\n');
             }
-            else {
-                if (!std::regex_match(operation, operationRe)) {
+        }
+
+        if (operation == "") {
+            std::cout << "enter operation\n";
+            while (true) {
+                if (!(std::cin >> operation)) {
                     std::cout << "invalid value, enter operation\n";
                     std::cin.clear();
                     std::cin.ignore(INT_MAX, '\n');
                 }
                 else {
-                    break;
+                    if (!std::regex_match(operation, operationRe)) {
+                        std::cout << "invalid value, enter operation\n";
+                        std::cin.clear();
+                        std::cin.ignore(INT_MAX, '\n');
+                    }
+                    else {
+                        break;
+                    }
                 }
             }
         }
+
 
         std::cout << "enter value b\n";
         while (!(std::cin >> b)) {
@@ -42,40 +62,40 @@ int main(){
 
         switch (operation[0]) {
         case '+':
-            std::cout << "answer " << a + b << '\n';
+            answer = a + b;
             break;
         case '-':
-            std::cout << "answer " << a - b << '\n';
+            answer = a - b;
             break;
         case '/':
             if (b == 0) { 
-                std::cout << "answer " << "can't divide by zero\n";
+                std::cout << "can't divide by zero\n";
+                answer = 0;
             }
             else { 
-                std::cout << "answer " << a / b << '\n';
+                answer = a / b;
             }
                 break;
         case '*':
-            std::cout << "answer " << a * b << '\n';
+            answer = a * b;
             break;
         case '%':
-            if (b < 0) {
-                std::cout << "answer " << "can't divide by zero\n";
+            if (b == 0) {
+                std::cout << "can't divide by zero\n";
+                answer = 0;
             } 
             else{
-                std::cout << "answer " << fmod(a, b) << '\n';
+                answer = fmod(a, b);
             }
             break;
         default:
+            answer = 0;
             std::cout << "wrong data\n";
         }
 
-        std::cout << "To continue write +\n";
-        char continueToken;
+        std::cout << "answer is " << answer << '\n';
 
+        std::cout << "To continue write operation or value, other to stop\n";
         std::cin >> continueToken;
-        if (continueToken != '+') {
-            break;
-        }
     }
 }
