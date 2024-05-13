@@ -48,7 +48,7 @@ int main(){
             std::cout << "answer " << a - b << '\n';
             break;
         case '/':
-            if (b < 0) { 
+            if (b == 0) { 
                 std::cout << "answer " << "can't divide by zero\n";
             }
             else { 
