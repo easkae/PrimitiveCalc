@@ -9,7 +9,7 @@ int main(){
     while (true){
         double a, b;
         std::string operation = "";
-        std::regex operationRe("^\\s*[+\\-*/%]$");
+        std::regex operationRe("^(\\s*[+\\-*/%]|a|abs)$");
         std::regex valueRe("^[0-9]+$");
 
         if (std::regex_match(continueToken, valueRe)){
@@ -52,12 +52,13 @@ int main(){
             }
         }
 
-
-        std::cout << "enter value b\n";
-        while (!(std::cin >> b)) {
-            std::cout << "invalid value, enter number\n";
-            std::cin.clear();
-            std::cin.ignore(INT_MAX, '\n');
+        if (operation != "abs" && operation != "a") {
+            std::cout << "enter value b\n";
+            while (!(std::cin >> b)) {
+                std::cout << "invalid value, enter number\n";
+                std::cin.clear();
+                std::cin.ignore(INT_MAX, '\n');
+            }
         }
 
         switch (operation[0]) {
@@ -87,6 +88,9 @@ int main(){
             else{
                 answer = fmod(a, b);
             }
+            break;
+        case 'a':
+            answer = abs(a);
             break;
         default:
             answer = 0;
