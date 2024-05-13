@@ -98,4 +98,6 @@ int main(){
         std::cout << "To continue write operation or value, other to stop\n";
         std::cin >> continueToken;
     }
+
+    return 0;
 }
